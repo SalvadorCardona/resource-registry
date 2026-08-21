@@ -32,6 +32,7 @@ export default [
         fetch: "readonly",
       },
     },
+    plugins: { "@typescript-eslint": tseslint },
     rules: {
       ...tseslint.configs.recommended.rules,
       // Le code s'appuie volontairement sur `any` pour les données de formulaire,
