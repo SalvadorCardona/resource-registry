@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: resource-registry
+
+      # Until jsonld-item is published to npm it is resolved through a link to
+      # the sibling repository (see the pnpm.overrides entry in package.json).
+      # Once published, drop this step and the override.
+      # While that repository is private, `token` must carry a PAT with read
+      # access; the secret becomes unnecessary once it is public.
+      - uses: actions/checkout@v4
+        with:
+          repository: SalvadorCardona/jsonld-item
+          path: jsonld-item
+          token: ${{ secrets.DEPS_TOKEN || github.token }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: resource-registry/pnpm-lock.yaml
+
+      # jsonld-item must be built for its types to resolve
+      - run: pnpm install --frozen-lockfile
+        working-directory: jsonld-item
+      - run: pnpm run build
+        working-directory: jsonld-item
+
+      - run: pnpm install --frozen-lockfile
+        working-directory: resource-registry
+      - run: pnpm run typecheck
+        working-directory: resource-registry
+      - run: pnpm run lint
+        working-directory: resource-registry
+      - run: pnpm run test
+        working-directory: resource-registry
+      - run: pnpm run build
+        working-directory: resource-registry
+      - run: pnpm pack --pack-destination /tmp
+        working-directory: resource-registry
