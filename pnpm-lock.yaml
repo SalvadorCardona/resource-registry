@@ -4,16 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  jsonld-item: link:../jsonld-item
-
 importers:
 
   .:
     dependencies:
       jsonld-item:
-        specifier: link:../jsonld-item
-        version: link:../jsonld-item
+        specifier: ^0.1.0
+        version: 0.1.0
     devDependencies:
       '@changesets/cli':
         specifier: ^2.29.8
@@ -914,6 +911,9 @@ packages:
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
+
+  jsonld-item@0.1.0:
+    resolution: {integrity: sha512-9oP31LHRNg2ejP6GcOc1ahM1BNqYxhn2Bm/Sl4vyPs0CjOCTs4pA9m6BU3BMKVG4YvGSCwyUrIG3URiQuAdmrQ==}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -2298,6 +2298,8 @@ snapshots:
   jsonfile@4.0.0:
     optionalDependencies:
       graceful-fs: 4.2.11
+
+  jsonld-item@0.1.0: {}
 
   keyv@4.5.4:
     dependencies:

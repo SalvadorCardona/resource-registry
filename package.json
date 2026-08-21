@@ -64,10 +64,5 @@
   "packageManager": "pnpm@10.33.2",
   "dependencies": {
     "jsonld-item": "^0.1.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "jsonld-item": "link:../jsonld-item"
-    }
   }
 }
