@@ -16,36 +16,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: resource-registry
-
-      # See the comment in ci.yml: link to the sibling repository until it is
-      # published to npm.
-      - uses: actions/checkout@v4
-        with:
-          repository: SalvadorCardona/jsonld-item
-          path: jsonld-item
-          token: ${{ secrets.DEPS_TOKEN || github.token }}
 
       - uses: pnpm/action-setup@v4
-        with:
-          package_json_file: resource-registry/package.json
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: resource-registry/pnpm-lock.yaml
           registry-url: https://registry.npmjs.org
 
       - run: pnpm install --frozen-lockfile
-        working-directory: resource-registry
 
-      # Opens (or updates) the "Version Packages" pull request.
-      # Once that PR is merged, this same step publishes to npm.
+      # Ouvre (ou met à jour) la PR « Version Packages ».
+      # Quand cette PR est fusionnée, la même étape publie sur npm.
       - uses: changesets/action@v1
         with:
-          cwd: resource-registry
           version: pnpm changeset version
           publish: pnpm run release
           commit: "chore: version packages"
